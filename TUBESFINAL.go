@@ -1,31 +1,35 @@
 package main
+
 import "fmt"
 
+// note oleh Meysha Primiandita - 103032400050
+
 type Klub struct {
-	Nama			string
-	Main			int
-	Menang			int
-	Seri			int
-	Kalah			int
-	GolMasuk		int
-	GolKemasukan	int
-	SelisihGol		int
-	Poin			int
+	Nama         string
+	Main         int
+	Menang       int
+	Seri         int
+	Kalah        int
+	GolMasuk     int
+	GolKemasukan int
+	SelisihGol   int
+	Poin         int
 }
 
 type Jadwal struct {
-	Klub1			string		 
-	Klub2			string
-	Pekan			int
+	Klub1 string
+	Klub2 string
+	Pekan int
 }
 
 const NMAX = 20
+
 type Liga [NMAX]Klub
 type DaftarJadwal [1000]Jadwal
 
 func cariKlub(liga Liga, nama string) int { //SUDAH
 	var i int
-	
+
 	for i = 0; i < NMAX; i++ {
 		if liga[i].Nama == nama {
 			return i
@@ -50,7 +54,7 @@ func tambahKlub(liga *Liga) { //SUDAH
 
 	if n <= 0 {
 		fmt.Println("Jumlah klub harus lebih dari 0.")
-	}else if n > slotKosong {
+	} else if n > slotKosong {
 		fmt.Println("Input melebihi kuota klub yang tersedia. Silahkan kembali dan input ulang.")
 	} else {
 		i = 0
@@ -59,7 +63,7 @@ func tambahKlub(liga *Liga) { //SUDAH
 			fmt.Scan(&nama)
 			if len(nama) != 3 {
 				fmt.Println("Nama klub harus terdiri dari 3 huruf.")
-			}else if cariKlub(*liga, nama) != -1 {
+			} else if cariKlub(*liga, nama) != -1 {
 				fmt.Println("Klub sudah terdaftar.")
 			} else {
 				j = 0
@@ -79,7 +83,7 @@ func tambahKlub(liga *Liga) { //SUDAH
 func ubahKlub(liga *Liga) { //SUDAH
 	var namaLama, namaBaru string
 	var idx int
-	
+
 	fmt.Print("Masukkan nama klub yang ingin diubah: ")
 	fmt.Scan(&namaLama)
 	fmt.Print("Masukkan nama baru (3 huruf): ")
@@ -97,7 +101,7 @@ func ubahKlub(liga *Liga) { //SUDAH
 func hapusKlub(liga *Liga) { //SUDAH
 	var nama string
 	var idx int
-	
+
 	fmt.Print("Masukkan nama klub yang ingin dihapus: ")
 	fmt.Scan(&nama)
 
@@ -155,7 +159,7 @@ func buatJadwal(liga Liga, jadwal *DaftarJadwal, jumlahKlub int) int { //SUDAH
 
 func tampilkanJadwal(jadwal DaftarJadwal, jumlah int) { //SUDAH
 	var i int
-	
+
 	for i = 0; i < jumlah; i++ {
 		fmt.Printf("Pekan %d: %s vs %s\n", jadwal[i].Pekan, jadwal[i].Klub1, jadwal[i].Klub2)
 	}
@@ -224,7 +228,7 @@ func inputHasil(liga *Liga) bool { //SUDAH
 func hitungKlub(liga Liga) int { //SUDAH
 	var sum int = 0
 	var i int
-	
+
 	for i = 0; i < NMAX; i++ {
 		if liga[i].Nama != "" {
 			sum++
@@ -304,18 +308,18 @@ func cariByPoin(liga Liga) { //SUDAH
 	} else {
 		fmt.Print("Masukkan jumlah poin yang ingin dicari: ")
 		fmt.Scan(&poinCari)
-		
+
 		if poinCari < 0 {
 			fmt.Println("Poin tidak boleh negatif.")
-		}else {
+		} else {
 			sortLigaByPoin(&liga, total)
 			idx = binarySearchByPoin(liga, total, poinCari)
-		
+
 			if idx == -1 {
 				fmt.Println("Tidak ada klub dengan poin tersebut.")
 			} else {
 				fmt.Printf("\nKlub dengan %d poin:\n", poinCari)
-				
+
 				i = idx
 				for i >= 0 && liga[i].Poin == poinCari {
 					i--
